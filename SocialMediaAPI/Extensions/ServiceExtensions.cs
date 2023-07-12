@@ -10,6 +10,14 @@ namespace SocialMediaAPI.Extensions
             #region Perfil
             services.AddScoped<IPerfilService, PerfilService>();
             #endregion
+
+            #region Post
+            services.AddScoped<IPostService, PostService>();
+            #endregion
+
+            #region Comentario
+            services.AddScoped<IComentarioService, ComentarioService>();
+            #endregion
         }
     }
 }

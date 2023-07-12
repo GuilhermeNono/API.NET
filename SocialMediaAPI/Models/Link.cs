@@ -7,6 +7,6 @@ namespace SocialMediaAPI.Models
     {
         [Key] public string Id { get; set; }
         public string Texto { get; set; }
-        public Post Post { get; set; }
+        public long IdPost { get; set; }
     }
 }

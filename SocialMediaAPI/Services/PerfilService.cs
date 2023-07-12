@@ -1,5 +1,6 @@
 ﻿using Dapper.Contrib.Extensions;
-using SocialMediaAPI.Contracts.Perfil;
+using SocialMediaAPI.Contracts.Perfil.Request;
+using SocialMediaAPI.Contracts.Perfil.Response;
 using SocialMediaAPI.Models;
 using SocialMediaAPI.Services.Interfaces;
 
@@ -7,7 +8,23 @@ namespace SocialMediaAPI.Services
 {
     public class PerfilService : BaseService, IPerfilService
     {
-        List<PerfilResponse> IPerfilService.GetAllPerfils()
+        public long CreatePerfil(PerfilCreateRequest perfil)
+        {
+            Perfil perfilCreated = new Perfil(perfil.name, perfil.dataNascimento);
+            return _connection.Insert<Perfil>(perfilCreated);
+        }
+
+        public void DeletePerfil(long id)
+        {
+            Perfil perfil = _connection.Get<Perfil>(id);
+
+            if (perfil == null)
+                throw new Exception($"O usuario de id {id}, não existe.");
+
+            _connection.Delete<Perfil>(perfil);
+        }
+
+        public List<PerfilResponse> GetAllPerfils()
         {
             List<PerfilResponse> perfisResult = new List<PerfilResponse>();
 
@@ -18,6 +35,28 @@ namespace SocialMediaAPI.Services
                 perfisResult.Add(new PerfilResponse(perfil.Nome, perfil.DataNascimento));
             }
             return perfisResult;
+        }
+
+        public PerfilResponse GetPerfil(long id)
+        {
+            Perfil perfil = _connection.Get<Perfil>(id);
+
+            PerfilResponse response = new PerfilResponse(perfil.Nome, perfil.DataNascimento);
+
+            return response;
+        }
+
+        public PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDateRequest updatedPerfil)
+        {
+            Perfil perfil = _connection.Get<Perfil>(perfilId) ?? throw new Exception($"O usuario de id {perfilId}, não existe.");
+
+            perfil.DataNascimento = updatedPerfil.dataNascimento;
+
+            bool perfilUpdated = _connection.Update<Perfil>(perfil);
+
+            var response = new PerfilUpdatedResponse(perfilId,perfilUpdated, DateTime.Now);
+
+            return response;
         }
     }
 }

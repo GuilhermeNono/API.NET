@@ -1,11 +1,15 @@
-﻿using SocialMediaAPI.Contracts.Perfil;
+﻿using SocialMediaAPI.Contracts.Perfil.Request;
+using SocialMediaAPI.Contracts.Perfil.Response;
 using SocialMediaAPI.Models;
 
 namespace SocialMediaAPI.Services.Interfaces
 {
     public interface IPerfilService
     {
-        //Incluir um DTO como resposta
         List<PerfilResponse> GetAllPerfils();
+        PerfilResponse GetPerfil(long id);
+        void DeletePerfil(long id);
+        long CreatePerfil(PerfilCreateRequest perfil);
+        PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDateRequest updatedPerfil);
     }
 }

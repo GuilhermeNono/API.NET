@@ -13,7 +13,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureInversionOfControl();
 
 //builder.Services.AddScoped<IPerfilService, PerfilService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

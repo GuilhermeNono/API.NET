@@ -8,7 +8,7 @@ namespace SocialMediaAPI.Models
         [Key]
         public int Id { get; set; }
         public string Reacoes { get; set; }
-        public Perfil Perfil { get; set; }
-        public Post Post { get; set; }
+        public long IdPerfil { get; set; }
+        public long IdPost { get; set; }
     }
 }

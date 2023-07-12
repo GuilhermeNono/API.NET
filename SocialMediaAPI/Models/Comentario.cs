@@ -12,8 +12,21 @@ namespace SocialMediaAPI.Models
 
         public DateTime DataC { get; set; }
 
-        public Perfil Perfil { get; set; }
+        public long IdPerfil { get; set; }
 
-        public Post Post { get; set; }
+        public long IdPost { get; set; }
+
+        public Comentario(string texto, DateTime dataC, long idPerfil, long idPost)
+        {
+            Texto = texto;
+            DataC = dataC;
+            IdPerfil = idPerfil;
+            IdPost = idPost;
+        }
+
+        public Comentario()
+        {
+            
+        }
     }
 }

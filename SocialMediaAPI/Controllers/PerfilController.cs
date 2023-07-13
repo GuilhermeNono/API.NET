@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI.Contracts.Perfil.Request;
 using SocialMediaAPI.Contracts.Perfil.Response;
+using SocialMediaAPI.Controllers.Interfaces;
 using SocialMediaAPI.Services.Interfaces;
 
 namespace SocialMediaAPI.Controllers
@@ -8,14 +9,10 @@ namespace SocialMediaAPI.Controllers
 
     [ApiController]
     [Route("perfis")]
-    public class PerfilController : ControllerBase
+    public class PerfilController : BaseController<IPerfilService>, IPerfilController
     {
-
-        private readonly IPerfilService service;
-
-        public PerfilController(IPerfilService perfilService)
+        public PerfilController(IPerfilService service) : base(service)
         {
-            service = perfilService;
         }
 
         [HttpGet]
@@ -23,7 +20,7 @@ namespace SocialMediaAPI.Controllers
         {
             try
             {
-                return Ok(service.GetAllPerfils());
+                return Ok(_service.GetAllPerfils());
             }
             catch (Exception ex)
             {
@@ -36,7 +33,7 @@ namespace SocialMediaAPI.Controllers
         {
             try
             {
-                PerfilResponse perfil = service.GetPerfil(id);
+                PerfilResponse perfil = _service.GetPerfil(id);
 
                 if (perfil == null)
                     return NotFound();
@@ -50,11 +47,11 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] PerfilCreateRequest perfil)
+        public IActionResult CreatePerfil([FromBody] PerfilCreateRequest perfil)
         {
             try
             {
-                long newPerfilId = service.CreatePerfil(perfil);
+                long newPerfilId = _service.CreatePerfil(perfil);
                 return Created($"/perfis/{newPerfilId}", perfil);
             } catch (Exception ex)
             {
@@ -63,11 +60,11 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute]long id)
+        public IActionResult DeletePerfil([FromRoute]long id)
         {
             try
             {
-                service.DeletePerfil(id);
+                _service.DeletePerfil(id);
                 return NoContent();
             } catch(Exception ex)
             {
@@ -76,11 +73,11 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public ActionResult<PerfilUpdatedResponse> UpdateDataNascimento([FromRoute] long id, [FromBody]PerfilUpdateDateRequest request)
+        public ActionResult<PerfilUpdatedResponse> UpdatePerfil([FromRoute] long id, [FromBody]PerfilUpdateDataRequest request)
         {
             try
             {
-                PerfilUpdatedResponse perfil = service.UpdatePerfil(id, request);
+                PerfilUpdatedResponse perfil = _service.UpdatePerfil(id, request);
                 return Ok(perfil);
             } catch (Exception ex) { 
                 return BadRequest(ex.Message);

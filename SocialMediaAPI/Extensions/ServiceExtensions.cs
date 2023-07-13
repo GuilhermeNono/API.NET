@@ -18,6 +18,18 @@ namespace SocialMediaAPI.Extensions
             #region Comentario
             services.AddScoped<IComentarioService, ComentarioService>();
             #endregion
+
+            #region Link
+            services.AddScoped<ILinkService, LinkService>();
+            #endregion
+
+            #region Reacao
+            services.AddScoped<IReacaoService, ReacaoService>();
+            #endregion
+
+            #region Imagem
+            services.AddScoped<IImagemService, ImagemService>();
+            #endregion
         }
     }
 }

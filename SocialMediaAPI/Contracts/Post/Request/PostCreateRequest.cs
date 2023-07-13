@@ -3,6 +3,5 @@
     public record PostCreateRequest(
         string Titulo,
         string Descricao,
-        DateTime DataPost,
         long idPerfil);
 }

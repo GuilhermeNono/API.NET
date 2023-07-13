@@ -6,7 +6,7 @@ namespace SocialMediaAPI.Services.Interfaces
     public interface IPostService
     {
         List<PostResponse> GetAllPosts();
-        PostResponse GetPost(int id);
+        PostResponse GetPost(long id);
         void DeletePost(long id);
         long CreatePost(PostCreateRequest post);
         PostUpdatedResponse UpdatePost(long perfilId, PostUpdateDataRequest updatedPost);

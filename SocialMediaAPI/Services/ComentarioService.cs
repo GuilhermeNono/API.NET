@@ -10,17 +10,15 @@ namespace SocialMediaAPI.Services
     {
         public long CreateComentario(ComentarioCreateRequest comentarioRequest)
         {
-            var comentario = new Comentario(comentarioRequest.Texto, comentarioRequest.DataComentario, comentarioRequest.idPerfil, comentarioRequest.idPost);
+            var comentario = new Comentario(comentarioRequest.Texto, DateTime.Now, comentarioRequest.idPerfil, comentarioRequest.idPost);
 
             return _connection.Insert(comentario);
         }
 
         public void DeleteComentario(long id)
         {
-            Comentario comentario = _connection.Get<Comentario>(id);
-
-            if (comentario != null)
-                throw new Exception($"O usuario de id {id}, não existe.");
+            Comentario comentario = _connection.Get<Comentario>(id) 
+                ?? throw new Exception($"O usuario de id {id}, não existe."); ;
 
             _connection.Delete<Comentario>(comentario);
         }
@@ -40,25 +38,28 @@ namespace SocialMediaAPI.Services
 
         public ComentarioResponse GetComentario(long id)
         {
-            Comentario comentario = _connection.Get<Comentario>(id);
+            Comentario comentario = _connection.Get<Comentario>(id) 
+                ?? throw new Exception($"O usuario de id {id}, não existe.");
 
             ComentarioResponse comentarioResponse = new ComentarioResponse(comentario.Texto, comentario.DataC);
 
             return comentarioResponse;
         }
 
-        public ComentarioUpdatedResponse UpdateComentario(long comentarioId, ComentarioUpdateDateRequest comentarioRequest)
+        public ComentarioUpdatedResponse UpdateComentario(long comentarioId, ComentarioUpdateDataRequest comentarioRequest)
         {
-            Comentario comentario = _connection.Get<Comentario>(comentarioId);
-
-            if (comentario == null)
-                throw new Exception($"O usuario de id {comentarioId}, não existe.");
+            Comentario comentario = _connection.Get<Comentario>(comentarioId) 
+                ?? throw new Exception($"O usuario de id {comentarioId}, não existe.");
 
             comentario.Texto = comentarioRequest.Texto;
 
             var updatedComentario = _connection.Update<Comentario>(comentario);
 
-            var comentarioUpdatedResponse = new ComentarioUpdatedResponse(comentario.Id, comentario.Texto, updatedComentario, DateTime.Now);
+            var comentarioUpdatedResponse = new ComentarioUpdatedResponse(
+                comentario.Id,
+                comentario.Texto,
+                updatedComentario,
+                DateTime.Now);
 
             return comentarioUpdatedResponse;
         }

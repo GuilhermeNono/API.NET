@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI.Contracts.Post.Request;
 using SocialMediaAPI.Contracts.Post.Response;
+using SocialMediaAPI.Controllers.Interfaces;
 using SocialMediaAPI.Services.Interfaces;
 
 namespace SocialMediaAPI.Controllers
 {
     [ApiController]
     [Route("posts")]
-    public class PostController : ControllerBase
+    public class PostController : BaseController<IPostService>, IPostController
     {
-        private readonly IPostService _service;
-
-        public PostController(IPostService service)
+        public PostController(IPostService service) : base(service)
         {
-            _service = service;
         }
 
         [HttpGet]
@@ -31,7 +29,7 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<PostResponse> GetOne([FromRoute]int id)
+        public ActionResult<PostResponse> GetOne([FromRoute]long id)
         {
             try
             {
@@ -44,12 +42,12 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]PostCreateRequest request)
+        public IActionResult CreatePost([FromBody]PostCreateRequest request)
         {
             try
             {
                 long newPostId = _service.CreatePost(request);
-                
+
                 return Created($"/posts/{newPostId}", request);
             }
             catch (Exception ex)
@@ -59,7 +57,7 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public IActionResult DeletePost([FromRoute] long id)
         {
             try
             {
@@ -73,7 +71,7 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public ActionResult<PostUpdatedResponse> Update([FromRoute]long id, [FromBody]PostUpdateDataRequest request)
+        public ActionResult<PostUpdatedResponse> UpdatePost([FromRoute]long id, [FromBody]PostUpdateDataRequest request)
         {
             try
             {

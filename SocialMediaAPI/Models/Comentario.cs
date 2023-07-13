@@ -6,7 +6,7 @@ namespace SocialMediaAPI.Models
     public class Comentario
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
 
         public string Texto { get; set; }
 

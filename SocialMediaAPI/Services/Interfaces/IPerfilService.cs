@@ -10,6 +10,6 @@ namespace SocialMediaAPI.Services.Interfaces
         PerfilResponse GetPerfil(long id);
         void DeletePerfil(long id);
         long CreatePerfil(PerfilCreateRequest perfil);
-        PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDateRequest updatedPerfil);
+        PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDataRequest updatedPerfil);
     }
 }

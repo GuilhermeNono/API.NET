@@ -10,16 +10,18 @@ namespace SocialMediaAPI.Services
     {
         public long CreatePost(PostCreateRequest post)
         {
-            Post newPost = new Post(post.Titulo, post.Descricao, post.DataPost, post.idPerfil);
+            var newPost = new Post(post.Titulo, post.Descricao, DateTime.Now, post.idPerfil);
 
             return _connection.Insert<Post>(newPost);
+
         }
 
         public void DeletePost(long id)
         {
-            Post post = _connection.Get<Post>(id);
+            Post post = _connection.Get<Post>(id)
+                ?? throw new Exception($"O usuario de id {id}, não existe.");
 
-            _connection.Delete<Post>(post); 
+            _connection.Delete<Post>(post);
         }
 
         public List<PostResponse> GetAllPosts()
@@ -35,9 +37,10 @@ namespace SocialMediaAPI.Services
             return postResponses;
         }
 
-        public PostResponse GetPost(int id)
+        public PostResponse GetPost(long id)
         {
-            Post post = _connection.Get<Post>(id);
+            Post post = _connection.Get<Post>(id)
+                ?? throw new Exception($"O usuario de id {id}, não existe.");
 
             PostResponse response = new PostResponse(post.Titulo, post.Descricao, post.DataP);
 
@@ -46,7 +49,8 @@ namespace SocialMediaAPI.Services
 
         public PostUpdatedResponse UpdatePost(long postId, PostUpdateDataRequest updatedPost)
         {
-            Post post = _connection.Get<Post>(postId) ?? throw new Exception($"O usuario de id {postId}, não existe.");
+            Post post = _connection.Get<Post>(postId)
+                ?? throw new Exception($"O usuario de id {postId}, não existe.");
 
             if (updatedPost.Titulo != null)
                 post.Titulo = updatedPost.Titulo;
@@ -56,7 +60,12 @@ namespace SocialMediaAPI.Services
 
             bool postUpdated = _connection.Update<Post>(post);
 
-            var response = new PostUpdatedResponse(post.Id, post.Titulo, post.Descricao, postUpdated, DateTime.Now);
+            var response = new PostUpdatedResponse(
+                post.Id,
+                post.Titulo,
+                post.Descricao,
+                postUpdated,
+                DateTime.Now);
 
             return response;
         }

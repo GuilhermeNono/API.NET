@@ -9,6 +9,6 @@ namespace SocialMediaAPI.Services.Interfaces
         ComentarioResponse GetComentario(long id);
         void DeleteComentario(long id);
         long CreateComentario(ComentarioCreateRequest perfil);
-        ComentarioUpdatedResponse UpdateComentario(long perfilId, ComentarioUpdateDateRequest updatedPerfil);
+        ComentarioUpdatedResponse UpdateComentario(long perfilId, ComentarioUpdateDataRequest updatedPerfil);
     }
 }

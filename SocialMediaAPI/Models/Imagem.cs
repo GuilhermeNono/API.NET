@@ -2,20 +2,20 @@
 
 namespace SocialMediaAPI.Models
 {
-    [Table("Link")]
-    public class Link
+    [Table("Imagem")]
+    public class Imagem
     {
         [Key] public long Id { get; private set; }
-        public string Texto { get; set; }
+        public string Caminho { get; set; }
         public long IdPost { get; set; }
 
-        public Link(string texto, long idPost)
+        public Imagem(string caminhos, long idPost)
         {
-            Texto = texto;
+            Caminho = caminhos;
             IdPost = idPost;
         }
 
-        public Link()
+        public Imagem()
         {
             
         }

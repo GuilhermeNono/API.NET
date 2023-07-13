@@ -1,5 +1,5 @@
 ﻿namespace SocialMediaAPI.Contracts.Perfil.Request
 {
-    public record PerfilUpdateDateRequest(
+    public record PerfilUpdateDataRequest(
         DateTime dataNascimento);
 }

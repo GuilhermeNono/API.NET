@@ -16,10 +16,8 @@ namespace SocialMediaAPI.Services
 
         public void DeletePerfil(long id)
         {
-            Perfil perfil = _connection.Get<Perfil>(id);
-
-            if (perfil == null)
-                throw new Exception($"O usuario de id {id}, não existe.");
+            Perfil perfil = _connection.Get<Perfil>(id) 
+                ?? throw new Exception($"O usuario de id {id}, não existe.");
 
             _connection.Delete<Perfil>(perfil);
         }
@@ -39,22 +37,27 @@ namespace SocialMediaAPI.Services
 
         public PerfilResponse GetPerfil(long id)
         {
-            Perfil perfil = _connection.Get<Perfil>(id);
+            Perfil perfil = _connection.Get<Perfil>(id) 
+                ?? throw new Exception($"O usuario de id {id}, não existe.");
 
             PerfilResponse response = new PerfilResponse(perfil.Nome, perfil.DataNascimento);
 
             return response;
         }
 
-        public PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDateRequest updatedPerfil)
+        public PerfilUpdatedResponse UpdatePerfil(long perfilId, PerfilUpdateDataRequest updatedPerfil)
         {
-            Perfil perfil = _connection.Get<Perfil>(perfilId) ?? throw new Exception($"O usuario de id {perfilId}, não existe.");
+            Perfil perfil = _connection.Get<Perfil>(perfilId) 
+                ?? throw new Exception($"O usuario de id {perfilId}, não existe.");
 
             perfil.DataNascimento = updatedPerfil.dataNascimento;
 
             bool perfilUpdated = _connection.Update<Perfil>(perfil);
 
-            var response = new PerfilUpdatedResponse(perfilId,perfilUpdated, DateTime.Now);
+            var response = new PerfilUpdatedResponse(
+                perfilId,
+                perfilUpdated,
+                DateTime.Now);
 
             return response;
         }

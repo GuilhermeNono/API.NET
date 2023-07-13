@@ -7,7 +7,7 @@ namespace SocialMediaAPI.Models
     public class Post
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public DateTime DataP { get; set; }

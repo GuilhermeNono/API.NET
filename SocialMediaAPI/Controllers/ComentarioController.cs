@@ -1,20 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMediaAPI.Contracts.Comentario.Request;
 using SocialMediaAPI.Contracts.Comentario.Response;
+using SocialMediaAPI.Controllers.Interfaces;
 using SocialMediaAPI.Services.Interfaces;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SocialMediaAPI.Controllers
 {
     [ApiController]
     [Route("comentarios")]
-    public class ComentarioController : ControllerBase
+    public class ComentarioController : BaseController<IComentarioService>, IComentarioController
     {
-        private readonly IComentarioService _service;
-
-        public ComentarioController(IComentarioService service)
+        public ComentarioController(IComentarioService service) : base(service)
         {
-            _service = service;
         }
 
         [HttpGet]
@@ -74,7 +71,7 @@ namespace SocialMediaAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public ActionResult<ComentarioUpdatedResponse> UpdateComentario([FromRoute] long id, [FromBody] ComentarioUpdateDateRequest request)
+        public ActionResult<ComentarioUpdatedResponse> UpdateComentario([FromRoute] long id, [FromBody] ComentarioUpdateDataRequest request)
         {
             try
             {

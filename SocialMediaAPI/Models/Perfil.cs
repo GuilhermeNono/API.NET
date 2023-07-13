@@ -6,7 +6,7 @@ namespace SocialMediaAPI.Models
     public class Perfil
     {
         [Key]
-        public long Id { get; set; }
+        public long Id { get; private set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get; set; }
 

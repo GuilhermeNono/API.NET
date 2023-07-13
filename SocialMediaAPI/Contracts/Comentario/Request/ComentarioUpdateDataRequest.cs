@@ -1,5 +1,5 @@
 ﻿namespace SocialMediaAPI.Contracts.Comentario.Request
 {
-    public record ComentarioUpdateDateRequest(
+    public record ComentarioUpdateDataRequest(
         string Texto);
 }

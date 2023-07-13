@@ -2,6 +2,7 @@
 
 namespace SocialMediaAPI.Infra.Repository
 {
+    //TODO: Voltar e desolvolver a camada de repositorio
     public class RepositoryWrapper
     //: IRepositoryWrapper
     {
